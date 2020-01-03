@@ -3,6 +3,7 @@
 ## Đề tài : Nhận diện chữ viết tay ##
 
 **1. Mục tiêu and Kết quả**
+
 **a. Mục tiêu :** 
  * Tìm hiểu và học hỏi một số thư viện của Python qua đó phục vụ xây dựng đề tài của nhóm và có thể bổ sung cũng như củng cố lại những kiến thức đã học.
  * Xây dựng module có thể đọc được dữ liệu là ảnh chứa kí tự chữ, số phân biệt và đưa ra kết quả đúng gần nhất với dữ liệu đầu vào.
