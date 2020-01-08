@@ -20,3 +20,14 @@
 * Thư viện sử dụng : Opencv, Numpy, Sklearn, joblib, Halo,...
 
 **3. Hướng dẫn sử dụng**
+
+**a. Cài đặt thư viện:**
+* OpenCV.
+* Sklearn.
+
+**b. Tải source code:**
+* Giả nén thư mục data trong project.
+
+**c. Chạy chương trình:**
+* Chạy module model.py
+* Chạy module draw.py, sau đó test.
