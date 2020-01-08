@@ -24,6 +24,8 @@
 **a. Cài đặt thư viện:**
 * OpenCV.
 * Sklearn.
+* Numpy.
+* Halo.
 
 **b. Tải source code:**
 * Giả nén thư mục data trong project.
