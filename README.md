@@ -29,7 +29,8 @@
 
 **b. Tải source code:**
 * Tải source code theo link : https://github.com/NamSukio/python_projecr_ck.git
-* Giả nén thư mục data trong project.
+* Giải nén ra thư mục.
+* Vào thư mục vừa giải nén, giả nén file data ra thư mục data.
 
 **c. Chạy chương trình:**
 * Chạy module model.py
