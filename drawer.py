@@ -11,21 +11,18 @@ class Drawer:
 
     def draw(self):
         """
-        Method to draw continuous multiple circles on an image. Like a paint brush.
+            Phương thức vẽ các chữ cái cần nhận dạng.
         """
-
         self.reset()
 
-        window_name = 'Draw character'
+        window_name = 'Viết chữ'
 
         cv2.namedWindow(winname=window_name)
         cv2.setMouseCallback(window_name=window_name, on_mouse=self.mouse_callback)
-
-        # continue till ESC key is pressed
         while True:
             cv2.imshow(winname=window_name, mat=self.img)
 
-            # ESC key pressed
+            # Nhấn Esc để thoát.
             k = cv2.waitKey(delay=1) & 0xFF
             if k == 27:
                 break
@@ -34,24 +31,23 @@ class Drawer:
 
     def get_contours(self):
         """
-        Method to find contours in an image and crop them and return a list with cropped contours
+        Phương thức tìm đường viền trong ảnh và cắt chúng và trả về danh sách có đường viền được cắt
         """
 
         images = []
         main_image = self.img
         orig_image = main_image.copy()
 
-        # convert to greyscale and apply Gaussian filtering
+        # Chuyển đổi sang thang độ xám và áp dụng lọc Gaussian
         main_image = cv2.cvtColor(src=main_image, code=cv2.COLOR_BGR2GRAY)
         main_image = cv2.GaussianBlur(src=main_image, ksize=(5, 5), sigmaX=0)
 
-        # threshold the image
         _, main_image = cv2.threshold(src=main_image, thresh=127, maxval=255, type=cv2.THRESH_BINARY)
 
-        # find contours in the image
+        # Tìm đường viên các ảnh con
         contours, _ = cv2.findContours(image=main_image.copy(), mode=cv2.RETR_EXTERNAL, method=cv2.CHAIN_APPROX_SIMPLE)
 
-        # get rectangles containing each contour
+        # Lấy hình chữ nhật chứa mỗi đường viền
         bboxes = [cv2.boundingRect(array=contour) for contour in contours]
 
         for bbox in bboxes:
@@ -74,49 +70,48 @@ class Drawer:
 
     def mouse_callback(self, event, x, y, flags, params):
         """
-        Callback method for drawing circles on an image
+        Phương thức gọi lại để vẽ vòng tròn trên một hình ảnh
         """
 
-        # left mouse button is pressed
+        # Nhấn đúp chuột
         if event == cv2.EVENT_LBUTTONDOWN:
             self.mouse_pressed = True
 
-        # mouse pointer has moved over the window
+        # Di chuyển con trỏ chuột
         elif event == cv2.EVENT_MOUSEMOVE:
             if self.mouse_pressed:
                 cv2.circle(img=self.img, center=(x, y), radius=20, color=self.char_color, thickness=-1)
 
-        # left mouse button is released
+        # Nhấn chuột trái
         elif event == cv2.EVENT_LBUTTONUP:
             self.mouse_pressed = False
             cv2.circle(img=self.img, center=(x, y), radius=20, color=self.char_color, thickness=-1)
 
     def reset(self):
-        # reset image
+        # Đặt lại
         self.img = np.zeros((1024, 1024, 3), np.uint8)
 
     @staticmethod
     def convert_to_emnist(img):
         """
-        Method to make an image EMNIST format compatible. img is a cropped version of the character image.
-        Conversion process available in section II-A of the EMNIST paper available at https://arxiv.org/abs/1702.05373v1
+        Phương thức để làm cho một hình ảnh định dạng EMNIST tương thích dịnh dạng .img
         """
 
         height, width = img.shape[:2]
 
-        # create a square frame with lengths equal to the largest dimension
+        # Tạo một khung hình vuông có chiều dài bằng kích thước lớn nhất
         emnist_image = np.zeros(shape=(max(height, width), max(height, width), 3), dtype=np.uint8)
 
-        # center the cropped image in it
+        # Cắt trung tâm ảnh
         offset_height = int(float(emnist_image.shape[0] / 2.0) - float(height / 2.0))
         offset_width = int(float(emnist_image.shape[1] / 2.0) - float(width / 2.0))
 
         emnist_image[offset_height:offset_height + height, offset_width:offset_width + width] = img
 
-        # resize to 26x26 using bi-cubic interpolation
+        # thay đổi kích thước thành 26x26
         emnist_image = cv2.resize(src=emnist_image, dsize=(26, 26), interpolation=cv2.INTER_CUBIC)
 
-        # refit the 26x26 to 28x28 so that characters don't touch the boundaries
+        # chỉnh lại 26x26 đến 28x28
         fin_image = np.zeros(shape=(28, 28, 3), dtype=np.uint8)
         fin_image[1:27, 1:27] = emnist_image
 
@@ -125,9 +120,9 @@ class Drawer:
 
 if __name__ == '__main__':
     images = Drawer().get_images()
-
+    labels = []
     for image in images:
         label = Model().predict(img=image)
-        cv2.imshow(winname=label, mat=image)
-        cv2.waitKey(delay=0)
-        cv2.destroyAllWindows()
+        labels.append(label)
+    labels.reverse()
+    print("".join(labels) )

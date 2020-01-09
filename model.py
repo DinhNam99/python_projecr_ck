@@ -28,7 +28,7 @@ class Model:
 
     def predict(self, img):
         """
-        Method to run prediction on a single image.
+        Dự đoán ảnh
         """
 
         clf = load(self.joblib_path)
@@ -37,14 +37,12 @@ class Model:
         img = img.flatten()
 
         label = clf.predict([img])[0]
-        print(f'Image predicted to be: {label}')
-
         return label
 
     def read_dataset(self):
         """
-        Method to read image dataset in numpy array for training the model.
-        The structure of the data dir at `data_dir_path` should be:
+        Phương pháp đọc tập dữ liệu hình ảnh trong mảng numpy để training mô hình.
+        Cấu trúc của thư mục dữ liệu tại `data_dir_path` phải là:
             data
             ├── a
             |   ├── 1.png
@@ -55,19 +53,17 @@ class Model:
             |   ├── 2.png
             |   └── ...
             └── ...
-        Sub directory name is the name of the label and contains MNIST format compliant handwritten images
-        of the character denoted by that label.
+        Tên thư mục con là tên của nhãn và chứa hình ảnh viết tay tuân thủ định dạng MNIST của ký tự được biểu thị bởi nhãn đó.
         """
 
         base_sep_count = self.data_dir_path.count(os.sep)
         features = []
         labels = []
 
-        spinner = Halo(text='Reading', spinner='dots')
+        spinner = Halo(text='Đọc...', spinner='dots')
         spinner.start()
 
         for subdir, dirs, files in os.walk(self.data_dir_path, topdown=True):
-            # go only 2 levels deep
             if subdir.count(os.sep) - base_sep_count == 1:
                 del dirs[:]
                 continue
@@ -84,7 +80,7 @@ class Model:
 
                     features.append(list(name_im))
 
-        spinner.succeed(text='Finished reading')
+        spinner.succeed(text='Đọc hoàn thành...')
 
         features = np.array(features)
         labels = np.array(labels).ravel()
@@ -93,49 +89,49 @@ class Model:
 
     def train(self):
         """
-        Method to train a kNN classifier.
+        Phương thức traning
         """
 
-        # step 1: get the dataset
+        # Bước 1 : đọc data
         x, y = self.read_dataset()
 
-        # split into training and testing
+        # Chia ra train và test
         features_train, features_test, labels_train, labels_test = train_test_split(x, y, test_size=0.2, random_state=0)
 
-        spinner = Halo(text='Training', spinner='dots')
+        spinner = Halo(text='Trainning...', spinner='dots')
         spinner.start()
 
-        # step 2: train the model
+        # step 2: Đào tạo mô hình
         pipeline_knn_clf = Pipeline([('scaler', MinMaxScaler()), ('classifier', KNeighborsClassifier())])
         pipeline_knn_clf.fit(features_train, labels_train)
 
-        spinner.succeed(text='Finished training')
+        spinner.succeed(text='Hoàn thành...')
 
         if self.skip_evaluation:
-            print('Skipping running evaluation')
+            print('Bỏ qua đánh giá chạy')
 
         else:
-            spinner = Halo(text='Evaluating', spinner='dots')
+            spinner = Halo(text='Đánh giá...', spinner='dots')
             spinner.start()
 
-            # step 3: evaluate the model
+            # step 3: Đánh giá mô hình
             labels_pred = pipeline_knn_clf.predict(features_test)
             score = accuracy_score(labels_test, labels_pred)
 
-            spinner.succeed(text='Finished evaluation')
+            spinner.succeed(text='Đánh giá hoàn thành')
 
-            print(f'Accuracy (max=1.0): {score}')
+            print(f'Độ chính xác (max=1.0): {score}')
 
-        # persist model
+
         dump(pipeline_knn_clf, self.joblib_path)
 
-        print(f'Model saved at {self.joblib_path}')
+        print(f'Lưu mô hình tại {self.joblib_path}')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="""
-            Script to train a kNN Classifier model.
+            Trainning mô hình Phân loại kNN.
             """,
         usage='%(prog)s [options]',
     )
@@ -144,7 +140,7 @@ if __name__ == '__main__':
         '--data-path',
         dest='data_path',
         type=str,
-        help='Path where dataset images are saved.',
+        help='Đường dẫn nơi lưu trữ hình ảnh dữ liệu.',
     )
     parser.add_argument(
         '-se',
@@ -152,7 +148,7 @@ if __name__ == '__main__':
         dest='skip_evaluation',
         action='store_true',
         default=False,
-        help='Whether to skip running evaluations or not.',
+        help='Có nên bỏ qua các đánh giá đang chạy hay không.',
     )
     args = parser.parse_args()
 
