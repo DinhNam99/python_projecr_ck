@@ -28,6 +28,7 @@
 * Halo.
 
 **b. Tải source code:**
+* Tải source code theo link : https://github.com/NamSukio/python_projecr_ck.git
 * Giả nén thư mục data trong project.
 
 **c. Chạy chương trình:**
