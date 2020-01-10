@@ -22,14 +22,13 @@
 **3. Hướng dẫn sử dụng**
 
 **a. Cài đặt thư viện:**
-* OpenCV.
-* Sklearn.
-* Numpy.
-* Halo.
+* Cài đặt : `pip install -r requirements.txt`
 
 **b. Tải source code:**
-* Giả nén thư mục data trong project.
+* Tải source code theo link : https://github.com/NamSukio/python_projecr_ck.git
+* Giải nén ra thư mục.
+* Vào thư mục vừa giải nén, giả nén file data ra thư mục data.
 
 **c. Chạy chương trình:**
-* Chạy module model.py
-* Chạy module draw.py, sau đó test.
+* Chạy module model.py để tranning.
+* Sau đó, chạy module draw.py. Nó sẽ mở một cửa sổ. Vẽ các ký tự ở đó và nhấn phím ESC để đóng cửa sổ. Sau đó, nó sẽ chạy dự đoán về các ký tự được vẽ và xuất bản kết quả lên bàn điều khiển.
