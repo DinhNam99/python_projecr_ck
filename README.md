@@ -31,4 +31,4 @@
 
 **c. Chạy chương trình:**
 * Chạy module model.py để tranning.
-* Sau đó, chạy module draw.py. Nó sẽ mở một cửa sổ. Vẽ các ký tự ở đó và nhấn phím ESC để đóng cửa sổ. Sau đó, nó sẽ chạy dự đoán về các ký tự được vẽ và xuất bản kết quả lên bàn điều khiển.
+* Sau đó, chạy module drawer.py. Nó sẽ mở một cửa sổ. Vẽ các ký tự ở đó và nhấn phím ESC để đóng cửa sổ. Sau đó, nó sẽ chạy dự đoán về các ký tự được vẽ và xuất bản kết quả lên bàn điều khiển.
